@@ -1,0 +1,10 @@
+slide-show {
+  display: block;
+  position: relative; // required for abspos'd descendants
+  margin-bottom: $space-xs;
+  background: $white;
+}
+
+@import "./slide_show/frame";
+@import "./slide_show/nav";
+@import "./slide_show/thumbnails";

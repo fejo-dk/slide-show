@@ -1,0 +1,47 @@
+:ruby
+  slide_show = data.fetch(:slide_show)
+  controls = data.fetch(:controls, nil)
+  footer = data.fetch(:footer, nil)
+  lazy = options.fetch(:lazy, false)
+
+%slide-show{ "active-class": slide_show.active_class }
+  %slide-show-frame
+    %ol
+      - slide_show.images.each_with_index do |image, index|
+        %li{ class: slide_show.item_class(index) }
+          - if slide_show.selected?(index)
+            - if lazy
+              = component :lazy_image, data: { image: image, tolerance: 300 }
+            - else
+              = image_tag image.src, alt: image.alt
+          - else
+            = component :image_placeholder, data: { image: image },
+                options: { lazy: lazy, tolerance: 300 }
+
+    - watermark = slide_show.watermark
+    - if watermark
+      = image_tag(watermark.src, alt: watermark.alt, class: "watermark")
+
+    -# FIXME: textual content (a11y!)
+    %slide-show-nav{ class: slide_show.multi? ? nil : "solitary" }
+      = link_to "", slide_show.url, target: "_blank"
+      -# TODO: the links below should actually be (JS-only) `button[type=button]`s
+      = link_to "", slide_show.url, rel: "prev", target: "_blank"
+      = link_to "", slide_show.url, rel: "next", target: "_blank"
+
+    - if controls
+      = controls # injects arbitrary markup
+
+    - if footer
+      %footer
+        -# XXX: divitis?
+        %span.footer-label
+          = footer # injects arbitrary markup
+
+  - unless slide_show.thumbnails.empty?
+    %slide-show-thumbnails
+      %ol.hidden-md-down
+        - slide_show.thumbnails.each_with_index do |thumb, index|
+          %li{ class: slide_show.item_class(index) }
+            = link_to slide_show.url, target: "_blank" do
+              = image_tag thumb.src, alt: thumb.alt

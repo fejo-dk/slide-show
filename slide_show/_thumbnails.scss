@@ -1,0 +1,45 @@
+$_SlideShow_thumbnailSize: 50px;
+$_SlideShow_thumbnailsPerRow: 6; // TODO: parameterize? auto-flow?
+$_SlideShow_thumbnailPadding: 4px;
+
+slide-show-thumbnails ol {
+  @extend %cleanList;
+  display: flex;
+  flex-wrap: wrap;
+  // negative margin accounts for last image's `padding-right` - parentheses are
+  // required (cf. http://www.sassmeister.com/gist/d2d44e3ae4d8cb1bbf6e0c91c363a96f)
+  margin: 0 (-$_SlideShow_thumbnailPadding) 0 0;
+
+  li {
+    flex: 0 0 (100% / $_SlideShow_thumbnailsPerRow);
+    // fix for IE11 (cf. http://stackoverflow.com/q/21942183)
+    max-width: (100% / $_SlideShow_thumbnailsPerRow);
+    padding: 0 $_SlideShow_thumbnailPadding $_SlideShow_thumbnailPadding 0;
+  }
+
+  a {
+    display: block;
+    position: relative;
+    z-index: 0; // required for active elements' outlines to work
+    min-width: $_SlideShow_thumbnailSize;
+    height: $_SlideShow_thumbnailSize;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .is-active a,
+  a:hover {
+    $_outlineWidth: 2px;
+    outline: $_outlineWidth solid $color-primary;
+    outline-offset: (-$_outlineWidth);
+  }
+
+  img {
+    position: absolute;
+    top: 50%;
+    z-index: -1; // required for active elements' outlines to appear above the image
+    min-width: $_SlideShow_thumbnailSize;
+    height: $_SlideShow_thumbnailSize;
+    margin-top: (-$_SlideShow_thumbnailSize / 2);
+  }
+}

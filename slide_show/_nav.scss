@@ -1,0 +1,61 @@
+%SlideShow_fullCover { // TODO: rename
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+slide-show-nav {
+  $_iconSize: 32px;
+
+  @extend %cleanList;
+  @extend %SlideShow_fullCover;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  a {
+    cursor: pointer;
+  }
+
+  a:first-child {
+    @extend %SlideShow_fullCover;
+  }
+
+  a[rel=prev],
+  a[rel=next] {
+    @extend %Link-wrap;
+    display: block;
+
+    // center horizontally and vertically
+    position: absolute; // NB: also makes automatic z-index take effect
+    top: 50%;
+    transform: translateY(-50%);
+
+    text-align: center;
+    padding: $space-default;
+    outline: 0;
+    cursor: pointer;
+    user-select: none;
+
+    &::before {
+      font-size: $_iconSize;
+      color: $white;
+      text-shadow: 0 0 2px rgba($black, .5);
+    }
+  }
+
+  a[rel=prev] {
+    @extend %icon-arrowleft;
+    left: 0;
+    padding-left: $space-s;
+  }
+
+  a[rel=next] {
+    @extend %icon-arrowright;
+    right: 0;
+    padding-right: $space-s;
+  }
+}

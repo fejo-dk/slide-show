@@ -1,0 +1,88 @@
+// FIXME: excessive nesting (divitis); why not `ol[is=slide-show-frame]`?
+
+%slide-show-frame-item-unconcealed {
+  display: block;
+}
+
+slide-show-frame {
+  display: block;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  margin-bottom: $space-m;
+
+  ol {
+    @extend %cleanList;
+    display: flex;
+    height: 100%;
+    margin-bottom: 0;
+    align-items: center; // vertically center smaller images
+  }
+
+  li {
+    display: none;
+    width: 100%;
+
+    &.is-active {
+      @extend %slide-show-frame-item-unconcealed;
+    }
+  }
+
+  &.is-enhanced {
+    ol {
+      transition-duration: .6s; // FIXME: magic number
+    }
+
+    li {
+      @extend %slide-show-frame-item-unconcealed;
+    }
+  }
+
+  img {
+    width: 100%;
+
+    @include media-breakpoint-down(sm) {
+      @media (min-aspect-ratio: 1/1) {
+        max-height: 300px;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .watermark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: $white;
+    padding: $space-xs;
+    width: 80px;
+  }
+
+  footer {
+    display: flex;
+    position: absolute;
+    bottom: $space-s;
+    width: 100%;
+    justify-content: center;
+
+    .footer-label { // TODO: rename
+      display: inline-block;
+      padding: $space-xs $space-s;
+      border-radius: $border-radius-large;
+      font-size: $font-size-s1;
+      font-weight: bold;
+      color: $white;
+      background-color: $black-transparent-02;
+      cursor: pointer;
+      user-select: none;
+
+      @include media-breakpoint-down(md) {
+        font-size: $font-size-s;
+      }
+    }
+  }
+
+  &.solitary slide-show-nav {
+    display: none;
+  }
+}

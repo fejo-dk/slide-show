@@ -1,0 +1,6 @@
+-# NB: this needs to be a partial in order to be passed as a parameter
+-# FIXME: does not belong here? (i.e. slide show should be agnostic)?
+%button.magnifier{ type: :button, "data-target-selector": ".magnifiable" }
+  -# FIXME: l10n
+  magnify
+  %slide-show-counter{ format: "({index}/{total})" }

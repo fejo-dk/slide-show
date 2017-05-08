@@ -1,0 +1,20 @@
+:ruby
+  house = ViewModel::SampleData::House.new
+  first, last = [0, 5]
+  slide_show = ViewModel::SlideShow.new(
+    url: house.gallery_url,
+    images: house.images[first..last],
+    thumbnails: house.thumbnails[first..last],
+    watermark: ViewModel::Image.new(
+      src: house.partner_logo.src,
+      alt: house.partner_logo.alt,
+      caption: nil
+    ),
+    selected_index: 2
+  )
+
+= component :spacer, data: { height: 100 }
+
+= component :magnifier do
+  = component :slide_show, options: { lazy: true }, data: { slide_show: slide_show,
+      footer: render(partial: "slide_show/slide_show_magnificator") }
